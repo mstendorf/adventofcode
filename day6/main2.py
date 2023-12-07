@@ -3,7 +3,6 @@ def find_shortest_hold_time(time, distance):
     high = time
     while low < high:
         mid = (low + high) // 2
-        print(low, high, mid)
         if mid * (time - mid) > distance:
             high = mid
         else:
