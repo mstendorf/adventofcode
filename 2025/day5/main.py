@@ -33,15 +33,15 @@ def part1(ranges, items):
 
 
 def part2(ranges):
-    merged_ranges = []
+    merged = []
     for r in sorted(ranges):
-        if not merged_ranges or merged_ranges[-1][1] < r[0] - 1:
-            merged_ranges.append(r)
+        if not merged or merged[-1][1] < r[0] - 1:
+            merged.append(r)
         else:
-            merged_ranges[-1] = (merged_ranges[-1][0], max(merged_ranges[-1][1], r[1]))
+            merged[-1] = (merged[-1][0], max(merged[-1][1], r[1]))
 
     sum = 0
-    for r in merged_ranges:
+    for r in merged:
         sum += r[1] - r[0] + 1
 
     print("Part 2:", sum)
