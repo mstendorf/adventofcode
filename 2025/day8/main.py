@@ -2,7 +2,7 @@ import math
 import itertools
 
 
-f = open("input.txt", "r")
+f = open("test.txt", "r")
 
 lines = f.readlines()
 points = []
@@ -29,9 +29,7 @@ def part1(points):
     distances = get_distances(points)
     distances.sort(key=lambda x: x[2])
 
-    # print(distances)
-
-    max_connections = 1000
+    max_connections = 10
     found_connections = 0
     circuits = []
 
@@ -45,21 +43,36 @@ def part1(points):
                 appended = True
                 break
             elif p1 in circuit:
+                print(f"{p1} found in circuit, appending {p2} - {circuit}")
                 circuit.append(p2)
                 appended = True
                 found_connections += 1
                 break
             elif p2 in circuit:
+                print(f"{p2} found in circuit, appending {p1} - {circuit}")
                 circuit.append(p1)
                 found_connections += 1
                 appended = True
                 break
         if not appended:
+            print(f"Creating new circuit with {p1} and {p2}")
             circuits.append([p1, p2])
             found_connections += 1
         i += 1
 
-    # sor circuits by length
+    for circuit in circuits:
+        # print(f"Initial circuit: {circuit}")
+        for point in circuit:
+            for other_circuit in circuits:
+                if circuit != other_circuit and point in other_circuit:
+                    # merge circuits
+                    for p in other_circuit:
+                        if p not in circuit:
+                            circuit.append(p)
+                    circuits.remove(other_circuit)
+                    break
+
+    # sort circuits by length
     circuits.sort(key=lambda x: len(x), reverse=True)
     print(f"Lengths of circuits found: {len(circuits)}")
     for circuit in circuits:
